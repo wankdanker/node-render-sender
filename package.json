@@ -16,5 +16,26 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dan VerWeire",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wankdanker/node-render-sender.git"
+  },
+  "keywords": [
+    "imagemin",
+    "render",
+    "send",
+    "req",
+    "res",
+    "jpg",
+    "png",
+    "width",
+    "height",
+    "resize",
+    "imagemagick"
+  ],
+  "bugs": {
+    "url": "https://github.com/wankdanker/node-render-sender/issues"
+  },
+  "homepage": "https://github.com/wankdanker/node-render-sender#readme"
 }
