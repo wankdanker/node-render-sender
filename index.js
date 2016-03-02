@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+"use strict";
 
 var gm = require('gm')
 	, fs = require('fs')
@@ -81,6 +81,11 @@ module.exports = function (defaults) {
 		var rs = opts.stream || fs.createReadStream(opts.path);
 		var cached = opts.cachedPath;
 
+		//if rs is a function then call it and hope that it returns a stream
+		if (typeof rs === 'function') {
+			rs = rs(opts);
+		}
+		
 		rs.once('error', cb);
 
 		rs.once('readable', function () {
