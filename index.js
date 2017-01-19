@@ -91,10 +91,13 @@ module.exports = function (defaults) {
 		rs.once('readable', function () {
 			var g = gm(rs, opts.name)
 				.options({ imageMagick : true })
-				.trim()
 
 			if (opts.width && opts.height) {
 				g.resize(opts.width, opts.height);
+			}
+
+			if (opts.trim) {
+				g.trim();
 			}
 
 			return g.write(cached, function (err) {
@@ -102,6 +105,10 @@ module.exports = function (defaults) {
 					return cb(err);
 				}
 
+				if (!opts.minify) {
+					return cb();
+				}
+				
 				(new Imagemin())
 					.src(cached)
 					.dest(cacheDir)
