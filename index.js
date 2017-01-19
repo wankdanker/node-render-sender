@@ -23,7 +23,7 @@ module.exports = function (defaults) {
 	renderSend.getCachedName = getCachedName;
 
 	return renderSend;
-	
+
 	// This function will serve a cached image or render the new image, save it and send it
 	function renderSend (opts, cb) {
 		opts = opts || {};
@@ -52,7 +52,7 @@ module.exports = function (defaults) {
 						if (err) {
 							return cb(err);
 						}
-						
+
 						//we needed to render
 						return cb(null, true);
 					});
@@ -70,7 +70,7 @@ module.exports = function (defaults) {
 		}
 
 		var crs = send(opts.req, opts.cachedPath, { maxAge : maxAge });
-	
+
 		crs.on('error', cb);
 		crs.pipe(opts.res);
 
@@ -85,7 +85,7 @@ module.exports = function (defaults) {
 		if (typeof rs === 'function') {
 			rs = rs(opts);
 		}
-		
+
 		rs.once('error', cb);
 
 		rs.once('readable', function () {
@@ -93,7 +93,7 @@ module.exports = function (defaults) {
 				.options({ imageMagick : true })
 				.trim()
 
-			if (opts.width && opts.height) { 
+			if (opts.width && opts.height) {
 				g.resize(opts.width, opts.height);
 			}
 
@@ -127,7 +127,7 @@ module.exports = function (defaults) {
 			if (err) {
 				return cb(err);
 			}
-			
+
 			opts.stat = stat;
 			opts.cachedName = getCachedName(opts);
 
@@ -151,7 +151,7 @@ module.exports = function (defaults) {
 		if (opts.width && opts.height) {
 			name = name + '-' + opts.width + 'x' + opts.height;
 		}
-		
+
 		if (opts.format) {
 			name = name + '.' + opts.format;
 		}
