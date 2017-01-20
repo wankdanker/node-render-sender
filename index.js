@@ -92,6 +92,10 @@ module.exports = function (defaults) {
 			var g = gm(rs, opts.name)
 				.options({ imageMagick : true })
 
+			if (opts.crop) {
+				g.crop(opts.crop.width, opts.crop.height, opts.crop.x, opts.crop.y);
+			}
+
 			if (opts.width && opts.height) {
 				g.resize(opts.width, opts.height);
 			}
@@ -108,7 +112,7 @@ module.exports = function (defaults) {
 				if (!opts.minify) {
 					return cb();
 				}
-				
+
 				(new Imagemin())
 					.src(cached)
 					.dest(cacheDir)
@@ -157,6 +161,18 @@ module.exports = function (defaults) {
 
 		if (opts.width && opts.height) {
 			name = name + '-' + opts.width + 'x' + opts.height;
+		}
+
+		if (opts.trim) {
+			name = name + '-trimmed';
+		}
+
+		if (opts.minify) {
+			name = name + '-minified';
+		}
+
+		if (opts.crop) {
+			name = name + '-cropped:' + opts.crop.width + 'x' + opts.crop.height + '~' + opts.crop.x + ',' + opts.crop.y
 		}
 
 		if (opts.format) {
