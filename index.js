@@ -30,6 +30,10 @@ module.exports = function (defaults) {
 		opts = opts || {};
 
 		maybeRender(opts, function (err, rendered) {
+			if (err) {
+				return cb(err);
+			}
+
 			doSend(opts, cb);
 		});
 	};
@@ -69,8 +73,6 @@ module.exports = function (defaults) {
 		if (!opts.req || !opts.res) {
 			return cb(new Error('req and res are required to send.'));
 		}
-
-		debug(opts.cachedPath)
 
 		var crs = send(opts.req, opts.cachedPath, { maxAge : maxAge });
 
