@@ -8,6 +8,7 @@ var gm = require('gm')
 	, resolve = require('path').resolve
 	, send = require('send')
 	, Imagemin = require('imagemin')
+	, debug = require('debug')('render-sender')
 	;
 
 module.exports = function (defaults) {
@@ -68,6 +69,8 @@ module.exports = function (defaults) {
 		if (!opts.req || !opts.res) {
 			return cb(new Error('req and res are required to send.'));
 		}
+
+		debug(opts.cachedPath)
 
 		var crs = send(opts.req, opts.cachedPath, { maxAge : maxAge });
 

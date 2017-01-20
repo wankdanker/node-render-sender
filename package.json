@@ -7,8 +7,9 @@
     "test": "test"
   },
   "dependencies": {
-    "imagemin": "^4.0.0",
+    "debug": "^2.6.0",
     "gm": "^1.21.1",
+    "imagemin": "^4.0.0",
     "send": "^0.13.1"
   },
   "devDependencies": {},
