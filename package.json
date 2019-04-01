@@ -8,11 +8,15 @@
   },
   "dependencies": {
     "debug": "^2.6.0",
+    "ffmpeg": "0.0.4",
     "gm": "^1.21.1",
     "imagemin": "^4.0.0",
+    "make-dir": "^3.0.0",
     "send": "^0.13.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.10.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
