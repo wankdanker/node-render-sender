@@ -6,6 +6,7 @@ A small module that can resize, minify and cache images using:
 * imageMagick
 * imagemin
 * send
+* ffmpeg
 
 install
 -------
