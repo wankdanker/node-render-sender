@@ -9,7 +9,7 @@ var gm = require('gm')
 	, send = require('send')
 	, Imagemin = require('imagemin')
 	, debug = require('debug')('render-sender')
-	, ffmpeg = require('ffmpeg')
+	, ffmpeg = require('fluent-ffmpeg')
 	, makeDir = require('make-dir')
 	;
 
@@ -24,7 +24,6 @@ module.exports = function (defaults) {
 	//Create a cached dir
 	(async () => {
 		const path = await makeDir('test/cache');
-		console.log(path);
 	})();
 
 	renderSend.doSend = doSend;
@@ -191,8 +190,8 @@ module.exports = function (defaults) {
 		if (opts.frameRate) {
 			name = name + '-frame_rate' + opts.frameRate;
 		}
-		if (opts.frame) {
-			name = name + 'frame:' + opts.frame;
+		if (opts.timeStamp) {
+			name = name + 'time_stamp:' + opts.timeStamp;
 		}
 
 		if (opts.format) {
@@ -244,71 +243,59 @@ module.exports = function (defaults) {
 
 	//This function renders video using ffmpeg.
 	function videoRender (opts, rs, cb) {
+		
+		//If the output is a image save the desired timestamp.
+		if(imgArray.includes(opts.format) && opts.timeStamp) {
 
-		//Create a new process.
-		const process = new ffmpeg(opts.name);
+			//Main ffmpeg command for the file.
+			let command = ffmpeg(opts.name + opts.ext);
 
-		//Process the video
-		process.then(function(video) {
+			//Get the screenshot.
+			command.screenshot({
+				timestamps: [opts.timeStamp]
+				, filename : opts.cachedName
+				, folder: opts.cachedPath.split("/" + opts.cachedName)[0]
+			});
+		}
+		//Process the video.
+		else {
+
+			//Main ffmpeg command for the file.
+			let command = ffmpeg(opts.name + opts.ext);
+
+			//Set the opts for the video if they exist.
+
+			//Size of the video based on the opts.
+			let sizeString;
 			
-			//If the output is a image save the desired frame.
-			if(imgArray.includes(opts.format) && opts.frame) {
-
-				//Opts for extracting a frame.
-				let extractFrameOpts = {
-					number : 1
-					, every_n_frames : opts.frame
-					, fileName : opts.cachedPath
-				}
-
-				//Extract the frame.
-				video.fnExtractFrameToJPG(opts.cachedPath, extractFrameOpts, function(error, file) {
-
-					if(error) {
-						return cb(err);
-					} else {
-
-						//Save the file.
-						console.log(file);
-						file.save(opts.catchedPath, function(err, file) {
-							
-							if(err) {
-								return(cb(err));
-							}
-							console.log("File:" + file);
-						});
-					}
-				});
+			if(opts.height && !opts.width) {
+				sizeString = '?x' + opts.height;
 			}
-
+			else if(opts.width && !opts.height) {
+				sizeString = opts.width + 'x?';
+			}
 			else {
-
-				//Size of the video based on the opts.
-				let sizeString;
-				
-				if(opts.height && !opts.width) {
-					sizeString = opts.height + 'x?';
-				}
-				else if(opts.width && !opts.height) {
-					sizeString = opts.width + 'x?';
-				}
-
-				//Set the opts.
-
-				video.setVideoFormat(opts.format);
-				video.setVideoBitRate(opts.bitRate);
-				video.setVideoFramerate(opts.frameRate)
-				video.setVideoAspectRatio(aspect)
-				video.setVideoSize(sizeString, true, true, "#fff");
-
-				//Save the video.
-				video.save(opts.cachedPath);
-
+				sizeString = opts.width + "x" + opts.height;
 			}
 
-		}, function(err) {
-			return(cb(new Error(err)));
-		});
+			if(opts.height || opts.width) {
+				command.size(sizeString);
+			}
+			if(opts.bitRate) {
+				command.videoBitrate(opts.bitRate);
+			}
+			if(opts.frameRate) {
+				command.outputFps(opts.frameRate);
+			}
+	
+			//Add an error handler.
+			command.on('error', err => {
+				return(cb(err));
+			});
+			
+			//Save the video.
+			command.save(opts.cachedPath);
 
+		}
 	}
 }
