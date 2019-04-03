@@ -248,7 +248,7 @@ module.exports = function (defaults) {
 		if(imgArray.includes(opts.format) && opts.timeStamp) {
 
 			//Main ffmpeg command for the file.
-			let command = ffmpeg(opts.name + opts.ext);
+			let command = ffmpeg(opts.path);
 
 			//Get the screenshot.
 			command.screenshot({
@@ -256,12 +256,17 @@ module.exports = function (defaults) {
 				, filename : opts.cachedName
 				, folder: opts.cachedPath.split("/" + opts.cachedName)[0]
 			});
+
+			//And an ender handler.
+			command.on('end', err => {
+				return cb();
+			});
 		}
 		//Process the video.
 		else {
 
 			//Main ffmpeg command for the file.
-			let command = ffmpeg(opts.name + opts.ext);
+			let command = ffmpeg(opts.path);
 
 			//Set the opts for the video if they exist.
 
@@ -288,13 +293,20 @@ module.exports = function (defaults) {
 				command.outputFps(opts.frameRate);
 			}
 	
+			//Save the video.
+			command.save(opts.cachedPath);
+
 			//Add an error handler.
 			command.on('error', err => {
 				return(cb(err));
 			});
-			
-			//Save the video.
-			command.save(opts.cachedPath);
+
+			//Add an end handler.
+			command.on('end', err => {
+				return cb();
+			});
+
+
 
 		}
 	}
