@@ -181,17 +181,17 @@ module.exports = function (defaults) {
 			name = name + '-cropped:' + opts.crop.width + 'x' + opts.crop.height + '~' + opts.crop.x + ',' + opts.crop.y
 		}
 
-		if (opts.aspectRatio) {
-			name = name + '-aspect_raito:' + opts.aspectRatio;
+		if (opts.aspect_ratio) {
+			name = name + '-aspect_ratio:' + opts.aspect_ratio;
 		}
-		if (opts.bitRate) {
-			name = name + '-bit_rate:' + opts.bitRate;
+		if (opts.bitrate) {
+			name = name + '-bitrate:' + opts.bitrate;
 		}
-		if (opts.frameRate) {
-			name = name + '-frame_rate' + opts.frameRate;
+		if (opts.framerate) {
+			name = name + '-framerate:' + opts.framerate;
 		}
-		if (opts.timeStamp) {
-			name = name + 'time_stamp:' + opts.timeStamp;
+		if (opts.timestamp) {
+			name = name + '-timestamp:' + opts.timestamp;
 		}
 
 		if (opts.format) {
@@ -245,14 +245,14 @@ module.exports = function (defaults) {
 	function videoRender (opts, rs, cb) {
 		
 		//If the output is a image save the desired timestamp.
-		if(imgArray.includes(opts.format) && opts.timeStamp) {
+		if(imgArray.includes(opts.format) && opts.timestamp) {
 
 			//Main ffmpeg command for the file.
 			let command = ffmpeg(opts.path);
 
 			//Get the screenshot.
 			command.screenshot({
-				timestamps: [opts.timeStamp]
+				timestamps: [opts.timestamp]
 				, filename : opts.cachedName
 				, folder: opts.cachedPath.split("/" + opts.cachedName)[0]
 			});
@@ -286,13 +286,17 @@ module.exports = function (defaults) {
 			if(opts.height || opts.width) {
 				command.size(sizeString);
 			}
-			if(opts.bitRate) {
-				command.videoBitrate(opts.bitRate);
+			if(opts.bitrate) {
+				command.videoBitrate(opts.bitrate);
 			}
-			if(opts.frameRate) {
-				command.outputFps(opts.frameRate);
+			if(opts.frameate) {
+				command.outputFps(opts.framerate);
 			}
-	
+			if(opts.aspect_ratio) {
+				let numbers = opts.aspect_ratio.split("x");
+				command.aspectRatio(numbers[0] + ":" + numbers[1]);
+			}
+
 			//Save the video.
 			command.save(opts.cachedPath);
 

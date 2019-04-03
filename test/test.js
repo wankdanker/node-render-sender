@@ -32,14 +32,14 @@ test("Testing an image", function(t) {
 test("Testing a video", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-bit_rate:500.mp4";
+	const fileName = "test/cache/10043-Video-1554302883754-bitrate:500.mp4";
 	const expectedHash = "1ad1e9b0354c6b2e862393bc99ab8b1cc429a271";
 
 	//Call maybeRender with the correct options.
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
 		, format: "mp4"
-		, bitRate: 500
+		, bitrate: 500
 	}, function (err) {
 
 		//Make sure there isn't an error.
@@ -53,17 +53,17 @@ test("Testing a video", function(t) {
 	});
 });
 
-test("Testing getting a screenshot", function(t) {
+test("Testing getting a screenshot and timestamp", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-500x500time_stamp:00:00:17.jpg";
+	const fileName = "test/cache/10043-Video-1554302883754-500x500-timestamp:17.jpg";
 	const expectedHash = "183b1b2cf90cfb10bcd6b9e74293241d3a75c859"
 
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
 		, width : 500
 		, height : 500
-		, timeStamp : '00:00:17'
+		, timestamp : '17'
 		, format: "jpg"
 	}, function (err) {
 		
@@ -83,13 +83,13 @@ test("Testing getting a screenshot", function(t) {
 test("Testing converting a video to avi", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-bit_rate:500.avi";
+	const fileName = "test/cache/10043-Video-1554302883754-bitrate:500.avi";
 	const expectedHash = "4f8b7382d0e7fd6c9f1975ebe8ef82c68e993766"
 
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
 		, format: "avi"
-		, bitRate: 500
+		, bitrate: 500
 	}, function (err) {
 		
 		//Make sure there isn't an error.
@@ -103,6 +103,57 @@ test("Testing converting a video to avi", function(t) {
 
 	});
 });
+
+test("Testing a video with framerate", function(t) {
+
+	//Variables for the file name and expect sha hash.
+	const fileName = "test/cache/10043-Video-1554302883754-bitrate:500-framerate:25.mp4";
+	const expectedHash = "1ad1e9b0354c6b2e862393bc99ab8b1cc429a271"
+
+	rs.maybeRender({
+		path : "./test/10043-Video.mp4"
+		, format: "mp4"
+		, bitrate: 500
+		, framerate: 25
+	}, function (err) {
+		
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+
+		//Call test equality with the files and the tape object.
+		testEquality(fileName, expectedHash, t);
+		
+		//End the test.
+		t.end();
+
+	});
+});
+
+test("Testing a video with aspectratio", function(t) {
+
+	//Variables for the file name and expect sha hash.
+	const fileName = "test/cache/10043-Video-1554302883754-aspect_ratio:4x3-bitrate:400.mp4";
+	const expectedHash = "a42003204b2df80b4dfcb5a470ed4b2dc4b62359"
+
+	rs.maybeRender({
+		path : "./test/10043-Video.mp4"
+		, format: "mp4"
+		, bitrate: 400
+		, aspect_ratio: '4x3'
+	}, function (err) {
+		
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+
+		//Call test equality with the files and the tape object.
+		testEquality(fileName, expectedHash, t);
+		
+		//End the test.
+		t.end();
+
+	});
+});
+
 
 /**
  * This function uses sha hashes to see if a file is exqual to the expected hash.
