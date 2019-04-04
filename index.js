@@ -167,6 +167,10 @@ module.exports = function (defaults) {
 
 		if (opts.width && opts.height) {
 			name = name + '-' + opts.width + 'x' + opts.height;
+		} else if (opts.width) {
+			name = name + "-width:" + opts.width;
+		} else if (opts.height) {
+			name = name + "-height:" + opts.height;
 		}
 
 		if (opts.trim) {
@@ -289,12 +293,12 @@ module.exports = function (defaults) {
 			if(opts.bitrate) {
 				command.videoBitrate(opts.bitrate);
 			}
-			if(opts.frameate) {
-				command.outputFps(opts.framerate);
+			if(opts.framerate) {
+				command.fps(opts.framerate);
 			}
-			if(opts.aspect_ratio) {
+			if(opts.aspect_ratio && (opts.width || opts.height)) {
 				let numbers = opts.aspect_ratio.split("x");
-				command.aspectRatio(numbers[0] + ":" + numbers[1]);
+				command.size(sizeString).aspect(numbers[0] + ":" + numbers[1]);
 			}
 
 			//Save the video.

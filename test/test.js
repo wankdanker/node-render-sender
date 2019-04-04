@@ -83,13 +83,13 @@ test("Testing getting a screenshot and timestamp", function(t) {
 test("Testing converting a video to avi", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-bitrate:500.avi";
-	const expectedHash = "4f8b7382d0e7fd6c9f1975ebe8ef82c68e993766"
+	const fileName = "test/cache/10043-Video-1554302883754-bitrate:2000.avi";
+	const expectedHash = "31d09922742b3350f907bc5fd6113bb45dc0c9c5"
 
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
 		, format: "avi"
-		, bitrate: 500
+		, bitrate: 2000
 	}, function (err) {
 		
 		//Make sure there isn't an error.
@@ -107,14 +107,14 @@ test("Testing converting a video to avi", function(t) {
 test("Testing a video with framerate", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-bitrate:500-framerate:25.mp4";
-	const expectedHash = "1ad1e9b0354c6b2e862393bc99ab8b1cc429a271"
+	const fileName = "test/cache/10043-Video-1554302883754-bitrate:500-framerate:5.mp4";
+	const expectedHash = "77b41b55b28a2ae48a03a75578cd68765f751f15"
 
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
 		, format: "mp4"
 		, bitrate: 500
-		, framerate: 25
+		, framerate: 5
 	}, function (err) {
 		
 		//Make sure there isn't an error.
@@ -132,14 +132,15 @@ test("Testing a video with framerate", function(t) {
 test("Testing a video with aspectratio", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-aspect_ratio:4x3-bitrate:400.mp4";
-	const expectedHash = "a42003204b2df80b4dfcb5a470ed4b2dc4b62359"
+	const fileName = "test/cache/10043-Video-1554302883754-height:200-aspect_ratio:8x5-bitrate:400.mp4";
+	const expectedHash = "6c3a55f0bc0ded59e1faf6a663ce692a997e5b88"
 
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
 		, format: "mp4"
 		, bitrate: 400
-		, aspect_ratio: '4x3'
+		, height : 200
+		, aspect_ratio: '8x5'
 	}, function (err) {
 		
 		//Make sure there isn't an error.
