@@ -207,9 +207,10 @@ module.exports = function (defaults) {
 
 	//This function handles rendering images using gm.
 	function imageRender (opts, rs, cb) {
+		var cached = opts.cachedPath;
 
 		var g = gm(rs, opts.name)
-		.options({ imageMagick : true })
+			.options({ imageMagick : true })
 
 		if (opts.crop) {
 			g.crop(opts.crop.width, opts.crop.height, opts.crop.x, opts.crop.y);
