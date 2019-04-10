@@ -173,6 +173,10 @@ module.exports = function (defaults) {
 			name = name + "-height:" + opts.height;
 		}
 
+		if (opts.size) {
+			name = name + '-size:' + opts.size;
+		}
+
 		if (opts.trim) {
 			name = name + '-trimmed';
 		}
@@ -259,6 +263,7 @@ module.exports = function (defaults) {
 			command.screenshot({
 				timestamps: [opts.timestamp]
 				, filename : opts.cachedName
+				, size: opts.size
 				, folder: opts.cachedPath.split("/" + opts.cachedName)[0]
 			});
 

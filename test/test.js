@@ -56,14 +56,13 @@ test("Testing a video", function(t) {
 test("Testing getting a screenshot and timestamp", function(t) {
 
 	//Variables for the file name and expect sha hash.
-	const fileName = "test/cache/10043-Video-1554302883754-500x500-timestamp:17.jpg";
-	const expectedHash = "183b1b2cf90cfb10bcd6b9e74293241d3a75c859"
+	const fileName = "test/cache/10043-Video-1554302883754-size:320x240-timestamp:17.jpg";
+	const expectedHash = "990450fc686532c26963bf7251924f78dbb08128"
 
 	rs.maybeRender({
 		path : "./test/10043-Video.mp4"
-		, width : 500
-		, height : 500
 		, timestamp : '17'
+		, size: "320x240"
 		, format: "jpg"
 	}, function (err) {
 		
