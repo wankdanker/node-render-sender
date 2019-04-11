@@ -7,7 +7,9 @@ var gm = require('gm')
 	, extname = require('path').extname
 	, resolve = require('path').resolve
 	, send = require('send')
-	, Imagemin = require('imagemin')
+	, imagemin = require('imagemin')
+	, imageminJpegtran = require('imagemin-jpegtran')
+	, imageminPngquant = require('imagemin-pngquant')
 	, debug = require('debug')('render-sender')
 	, ffmpeg = require('fluent-ffmpeg')
 	, makeDir = require('make-dir')
@@ -115,8 +117,6 @@ module.exports = function (defaults) {
 
 	function doRender(opts, cb) {
 		var rs = opts.stream || fs.createReadStream(opts.path);
-
-		//console.log(opts);
 
 		//if rs is a function then call it and hope that it returns a stream
 		if (typeof rs === 'function') {
@@ -249,7 +249,7 @@ module.exports = function (defaults) {
 			g.trim();
 		}
 
-		return g.write(opts.cachedPath, function (err) {
+		return g.write(opts.cachedPath, async function (err) {
 			if (err) {
 				return cb(err);
 			}
@@ -258,16 +258,19 @@ module.exports = function (defaults) {
 				return cb();
 			}
 
-			(new Imagemin())
-				.src(cached)
-				.dest(cacheDir)
-				.run(function (err, files, stream) {
-					if (err) {
-						return cb(err);
-					}
-
-					return cb();
+			try {
+				await imagemin([cached], cacheDir + '/test', {
+					plugins : [
+						imageminJpegtran()
+						, imageminPngquant({ quality : '65-80' })
+					]
 				});
+			}
+			catch (err) {
+				return cb(err);
+			}
+
+			return cb();
 		});
 	}
 

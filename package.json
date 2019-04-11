@@ -11,6 +11,8 @@
     "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.23.1",
     "imagemin": "^6.1.0",
+    "imagemin-jpegtran": "^6.0.0",
+    "imagemin-pngquant": "^7.0.0",
     "make-dir": "^3.0.0",
     "send": "^0.16.2"
   },

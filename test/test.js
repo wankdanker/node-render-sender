@@ -28,12 +28,37 @@ test("Testing an image", function(t) {
 	});
 });
 
+test("Testing an image with minification", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "ef18a76f7917a9a7fd0e730147c5300cf4da4646";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	//Call maybeRender with the correct options.
+	rs({
+		path : "./test/77141-Model-500x500.jpg"
+		, width : 100
+		, height : 100
+		, format : 'jpg'
+		, minify : true
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		t.end();
+	});
+});
+
 
 test("Testing a video", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "f66204516e34cc27ef2b114e45a24578ebb071e6";
+	const expectedHash = "732e7be838053740c67840034a2f9c68ead5818b";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
