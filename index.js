@@ -80,6 +80,27 @@ module.exports = function (defaults) {
 	}
 
 	function doSend (opts, cb) {
+		if (opts.outstream) {
+			return doSendFs(opts, cb);
+		}
+
+		if (opts.req && opts.res) {
+			return doSendHttp(opts, cb);
+		}
+
+		return cb(new Error('opts.req and opts.res or opts.outstream are required to send.'));
+	}
+
+	function doSendFs (opts, cb) {
+		var readStream = fs.createReadStream(opts.cachedPath);
+
+		readStream.pipe(opts.outstream);
+
+		readStream.on('end', cb)
+		readStream.on('error', cb)
+	}
+
+	function doSendHttp (opts, cb) {
 		if (!opts.req || !opts.res) {
 			return cb(new Error('req and res are required to send.'));
 		}
