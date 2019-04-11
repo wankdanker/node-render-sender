@@ -16,10 +16,11 @@
   },
   "devDependencies": {
     "ffmpeg": "0.0.4",
-    "tape": "^4.10.1"
+    "tape": "^4.10.1",
+    "through": "^2.3.8"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test.js"
   },
   "author": "Dan VerWeire",
   "license": "MIT",
