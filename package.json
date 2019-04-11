@@ -7,12 +7,12 @@
     "test": "test"
   },
   "dependencies": {
-    "debug": "^2.6.0",
+    "debug": "^2.6.9",
     "fluent-ffmpeg": "^2.1.2",
-    "gm": "^1.21.1",
-    "imagemin": "^4.0.0",
+    "gm": "^1.23.1",
+    "imagemin": "^6.1.0",
     "make-dir": "^3.0.0",
-    "send": "^0.13.1"
+    "send": "^0.16.2"
   },
   "devDependencies": {
     "ffmpeg": "0.0.4",
