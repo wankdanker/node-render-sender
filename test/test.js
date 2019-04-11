@@ -8,7 +8,7 @@ test("Testing an image", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "ef18a76f7917a9a7fd0e730147c5300cf4da4646";
+	const expectedHash = "b7f49772efc7872350f6bdb7c32f21b11ff5c189";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -16,7 +16,7 @@ test("Testing an image", function(t) {
 
 	//Call maybeRender with the correct options.
 	rs({
-		path : "./test/77141-Model-500x500.jpg"
+		path : "./test/54000.jpg"
 		, width : 100
 		, height : 100
 		, format : 'jpg'
@@ -32,7 +32,7 @@ test("Testing an image with minification", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "ef18a76f7917a9a7fd0e730147c5300cf4da4646";
+	const expectedHash = "39ddf0e7facf76617c5c9426aa994cfef66e696d";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -40,7 +40,7 @@ test("Testing an image with minification", function(t) {
 
 	//Call maybeRender with the correct options.
 	rs({
-		path : "./test/77141-Model-500x500.jpg"
+		path : "./test/54000.jpg"
 		, width : 100
 		, height : 100
 		, format : 'jpg'

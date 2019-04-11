@@ -8,8 +8,10 @@ var gm = require('gm')
 	, resolve = require('path').resolve
 	, send = require('send')
 	, imagemin = require('imagemin')
-	, imageminJpegtran = require('imagemin-jpegtran')
-	, imageminPngquant = require('imagemin-pngquant')
+	, jpegtran = require('imagemin-jpegtran')
+	, optipng = require('imagemin-optipng')
+	, gifsicle = require('imagemin-gifsicle')
+	, svgo = require('imagemin-svgo')
 	, debug = require('debug')('render-sender')
 	, ffmpeg = require('fluent-ffmpeg')
 	, makeDir = require('make-dir')
@@ -259,10 +261,12 @@ module.exports = function (defaults) {
 			}
 
 			try {
-				await imagemin([cached], cacheDir + '/test', {
-					plugins : [
-						imageminJpegtran()
-						, imageminPngquant({ quality : '65-80' })
+				await imagemin([cached], cacheDir, {
+					use : [
+						jpegtran()
+						, optipng()
+						, gifsicle()
+						, svgo()
 					]
 				});
 			}
