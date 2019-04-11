@@ -23,7 +23,7 @@ module.exports = function (defaults) {
 
 	//Create a cached dir
 	(async () => {
-		const path = await makeDir('test/cache');
+		const path = await makeDir(cacheDir);
 	})();
 
 	renderSend.doSend = doSend;
