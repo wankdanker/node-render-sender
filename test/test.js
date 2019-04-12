@@ -92,7 +92,7 @@ test("Testing getting a screenshot and timestamp", function(t) {
 	rs({
 		path : "./test/10043-Video.mp4"
 		, timestamp : '17'
-		, size: "320x240"
+		, dimensions: "320x240"
 		, format: "jpg"
 		, outstream : outstream
 	}, function (err) {
@@ -103,6 +103,33 @@ test("Testing getting a screenshot and timestamp", function(t) {
 		t.end();
 	});
 });
+
+test("Testing getting a screenshot and timestamp with width and height", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "990450fc686532c26963bf7251924f78dbb08128";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	rs({
+		path : "./test/10043-Video.mp4"
+		, timestamp : '3'
+		, width: "100"
+		, height: "500"
+		, format: "jpg"
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		
+		//End the test.
+		t.end();
+	});
+});
+
 
 test("Testing converting a video to avi", function(t) {
 	t.plan(2);

@@ -44,6 +44,12 @@ module.exports = function (defaults) {
 	function renderSend (opts, cb) {
 		opts = opts || {};
 
+		//If there is a height and weight.
+		if(opts.height && opts.width) {
+			//Set dimensions to width by height.
+			opts.dimensions = opts.width + 'x' + opts.height; 
+		}
+
 		maybeRender(opts, function (err, rendered) {
 			if (err) {
 				return cb(err);
@@ -196,10 +202,6 @@ module.exports = function (defaults) {
 			name = name + "-height:" + opts.height;
 		}
 
-		if (opts.size) {
-			name = name + '-size:' + opts.size;
-		}
-
 		if (opts.trim) {
 			name = name + '-trimmed';
 		}
@@ -286,14 +288,22 @@ module.exports = function (defaults) {
 
 			//Main ffmpeg command for the file.
 			let command = ffmpeg(opts.path);
-
-			//Get the screenshot.
-			command.screenshot({
+	
+			//Screent shot opts.
+			let screenshotOpts = {
 				timestamps: [opts.timestamp]
 				, filename : opts.cachedName
-				, size: opts.size
 				, folder: opts.cachedPath.split("/" + opts.cachedName)[0]
-			});
+			}
+			
+			//If there are dimensions.
+			if (opts.dimensions) {
+				//Add size to screenshot opts equal to the dimensions.
+				screenshotOpts.size = opts.dimensions;
+			}
+
+			//Get the screenshot.
+			command.screenshot(screenshotOpts);
 
 			//And an ender handler.
 			command.on('end', err => {
