@@ -131,35 +131,61 @@ module.exports = function (defaults) {
 			rs = rs(opts);
 		}
 
-		rs.once('error', cb);
+		rs.once('error', closeStream);
 
 		rs.once('readable', function () {
 
 			//Regular expression for getting the file extension.
 			const format = /\.([a-zA-Z1-9]+)$/;
 			
-			//Exectue the regular express
+			console.log("OPTS: ", opts);
+
+			//Execute the regular express
 			const results = format.exec(opts.name + opts.ext);
 
 			//If the file has an extension that is in the image array.
-			if(imgArray.includes(results[1])) {
+			if(results[1] && imgArray.includes(String.prototype.toLowerCase.call(results[1]))) {
 
-				//Call image render with the apporiate options.
-				imageRender(opts, rs, cb);
+				//Call image render with the appropriate options.
+				imageRender(opts, rs, closeStream);
 			}
 			//If the file has an extension that is in the image array.
-			else if (videoArray.includes(results[1])) {
+			else if (results[1] && videoArray.includes(String.prototype.toLowerCase.call(results[1]))) {
 
-				//Call video render with the apporiate options.
-				videoRender(opts, rs, cb);
+				//Call video render with the appropriate options.
+				videoRender(opts, rs, closeStream);
 			}
 			else {
 
 				//Return an error because the file is not supported.
-				return cb(new Error(results[0] + " file type is no supported"));
+				return closeStream(new Error(results[0] + " file type is not supported"));
 			}
 
 		});
+
+		/**
+		 * This function handles closing the read stream before invoking the callback function.
+		 * @returns invoking the call back function with the args.
+		 */
+		function closeStream () {
+
+			//Retrieve the arguments.
+			var args = Array.prototype.slice.call(arguments);
+
+			try {
+
+				//Close the read stream.
+				rs.close();
+			}
+			catch (e) {
+
+				//Log the err.
+				console.err("Read stream could not be closed.", e);
+			}
+
+			//Return the callback with the arguments.
+			return cb.apply(null, args);
+		}
 	}
 
 	function getCachedPath(opts, cb) {
