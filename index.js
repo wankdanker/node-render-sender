@@ -142,13 +142,13 @@ module.exports = function (defaults) {
 			const results = format.exec(opts.name + opts.ext);
 
 			//If the file has an extension that is in the image array.
-			if(results[1] && imgArray.includes(String.prototype.toLowerCase.call(results[1]))) {
+			if(imgArray.includes(String.prototype.toLowerCase.call(results[1]))) {
 
 				//Call image render with the appropriate options.
 				imageRender(opts, rs, closeStream);
 			}
 			//If the file has an extension that is in the image array.
-			else if (results[1] && videoArray.includes(String.prototype.toLowerCase.call(results[1]))) {
+			else if (videoArray.includes(String.prototype.toLowerCase.call(results[1]))) {
 
 				//Call video render with the appropriate options.
 				videoRender(opts, rs, closeStream);
