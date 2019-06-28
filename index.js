@@ -138,8 +138,6 @@ module.exports = function (defaults) {
 			//Regular expression for getting the file extension.
 			const format = /\.([a-zA-Z1-9]+)$/;
 			
-			console.log("OPTS: ", opts);
-
 			//Execute the regular express
 			const results = format.exec(opts.name + opts.ext);
 
