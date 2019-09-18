@@ -61,7 +61,6 @@ module.exports = function (defaults) {
 
 	// This function will render a new image if necessary
 	function maybeRender (opts, cb) {
-		
 		getCachedPath(opts, function (err, cachedPath) {
 			if (err) {
 				return cb(err);
@@ -134,21 +133,15 @@ module.exports = function (defaults) {
 		rs.once('error', closeStream);
 
 		rs.once('readable', function () {
-
-			//Regular expression for getting the file extension.
-			const format = /\.([a-zA-Z1-9]+)$/;
-			
-			//Execute the regular express
-			const results = format.exec(opts.name + opts.ext);
-
-			//If the file has an extension that is in the image array.
-			if(imgArray.includes(String.prototype.toLowerCase.call(results[1]))) {
+			//If the file has an extension that is in the image array
+			//or if there is no extension, then we assume it's an image
+			if(!opts.ext || imgArray.includes(opts.ext)) {
 
 				//Call image render with the appropriate options.
 				imageRender(opts, rs, closeStream);
 			}
 			//If the file has an extension that is in the image array.
-			else if (videoArray.includes(String.prototype.toLowerCase.call(results[1]))) {
+			else if (videoArray.includes(opts.ext)) {
 
 				//Call video render with the appropriate options.
 				videoRender(opts, rs, closeStream);
@@ -156,7 +149,7 @@ module.exports = function (defaults) {
 			else {
 
 				//Return an error because the file is not supported.
-				return closeStream(new Error(results[0] + " file type is not supported"));
+				return closeStream(new Error(opts.ext + " file type is not supported"));
 			}
 
 		});
@@ -178,7 +171,7 @@ module.exports = function (defaults) {
 			catch (e) {
 
 				//Log the err.
-				console.err("Read stream could not be closed.", e);
+				console.error("Read stream could not be closed.", e);
 			}
 
 			//Return the callback with the arguments.
