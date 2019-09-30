@@ -22,8 +22,14 @@ module.exports = function (defaults) {
 
 	var cacheDir = resolve(defaults.cache || '/tmp');
 	var maxAge = defaults.maxAge || '30 d';
-	const imgArray = ["jpg", "jpeg", "tif", "png", "gif", "raw"];
-	const videoArray = ["mp4"];
+	const imgArray = [
+		"jpg", "jpeg", "tif", "png", "gif", "raw"
+		, ".jpg", ".jpeg", ".tif", ".png", ".gif", ".raw"
+	];
+	const videoArray = [
+		"mp4"
+		, ".mp4"
+	];
 
 	//Create a cached dir
 	(async () => {
