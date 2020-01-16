@@ -53,6 +53,67 @@ test("Testing an image with minification", function(t) {
 	});
 });
 
+test("Testing an image with crop with decimals (percents)", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "76ad49083a059dd1dff1cc92ddfcb48adf075471";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	rs({
+		path : "./test/catalog.jpg"
+		, format : 'jpg'
+		, crop : {
+			width : .25
+			, height : .30
+			, x : .5
+			, y : .55
+		}
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		t.end();
+	});
+});
+
+test("Testing an image with crop with decimals based on phpthumb", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "722140f50e274ea4e8815001270831c4a0bcc709";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	const dims = {
+		l : 0.7683333333333333
+		, r : 0.04500000000000004
+		, t : 0.42105263157894735
+		, b : 0.39152759948652116
+	}
+
+	//Call maybeRender with the correct options.
+	rs({
+		path : "./test/catalog.jpg"
+		, format : 'jpg'
+		, crop : {
+			width : 1 - dims.l - dims.r
+			, height : (1 - dims.b) - dims.t
+			, x : dims.l
+			, y : dims.t
+		}
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		t.end();
+	});
+});
 
 test("Testing a video", function(t) {
 	t.plan(2);

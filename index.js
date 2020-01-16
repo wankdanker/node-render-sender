@@ -15,6 +15,7 @@ var gm = require('gm')
 	, debug = require('debug')('render-sender')
 	, ffmpeg = require('fluent-ffmpeg')
 	, makeDir = require('make-dir')
+	, getStream = require('get-stream')
 	;
 
 module.exports = function (defaults) {
@@ -258,13 +259,39 @@ module.exports = function (defaults) {
 	}
 
 	//This function handles rendering images using gm.
-	function imageRender (opts, rs, cb) {
+	async function imageRender (opts, rs, cb) {
 		var cached = opts.cachedPath;
 
-		var g = gm(rs, opts.name)
+		//ugh, we need to do stuff on this stream twice, 
+		//so I have to store it as a buffer until something
+		//better strikes me.
+		//TODO: only do this if opts.crop is true
+		var buffer = await getStream.buffer(rs);
+
+		var size = await new Promise(function (resolve, reject) {
+			gm(buffer).size(pcb(resolve, reject));
+		});
+
+		var g = gm(buffer, opts.name)
 			.options({ imageMagick : true })
 
 		if (opts.crop) {
+			if (opts.crop.width < 1) {
+				opts.crop.width = Math.round(size.width * opts.crop.width);
+			}
+
+			if (opts.crop.height < 1) {
+				opts.crop.height = Math.round(size.height * opts.crop.height);
+			}
+
+			if (opts.crop.x < 1) {
+				opts.crop.x = Math.round(size.width * opts.crop.x);
+			}
+
+			if (opts.crop.y < 1) {
+				opts.crop.y = Math.round(size.height * opts.crop.y);
+			}
+			
 			g.crop(opts.crop.width, opts.crop.height, opts.crop.x, opts.crop.y);
 		}
 
@@ -384,5 +411,16 @@ module.exports = function (defaults) {
 
 
 		}
+	}
+}
+
+//promised callback
+function pcb(resolve, reject) {
+	return function (err, data) {
+		if (err) {
+			return reject(err);
+		}
+
+		return resolve(data);
 	}
 }
