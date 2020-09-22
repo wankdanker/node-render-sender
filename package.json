@@ -9,18 +9,18 @@
   "dependencies": {
     "debug": "^2.6.9",
     "fluent-ffmpeg": "^2.1.2",
-    "get-stream": "^5.1.0",
+    "get-stream": "^5.2.0",
     "gm": "^1.23.1",
     "imagemin": "^6.1.0",
     "imagemin-gifsicle": "^6.0.1",
     "imagemin-jpegtran": "^6.0.0",
     "imagemin-optipng": "^6.0.0",
-    "imagemin-svgo": "^7.0.0",
-    "make-dir": "^3.0.0",
+    "imagemin-svgo": "^7.1.0",
+    "make-dir": "^3.1.0",
     "send": "^0.16.2"
   },
   "devDependencies": {
-    "tape": "^4.10.1",
+    "tape": "^4.13.3",
     "through": "^2.3.8"
   },
   "scripts": {
