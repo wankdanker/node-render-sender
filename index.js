@@ -329,7 +329,7 @@ module.exports = function (defaults) {
 		var buffer = await getStream.buffer(rs);
 
 		var size = await new Promise(function (resolve, reject) {
-			var g = gm(buffer);
+			var g = gm(buffer).options({ imageMagick : true });
 
 			if (opts.trim) {
 				//we probably want to get the size of the trimmed version

@@ -8,7 +8,7 @@ test("Testing an image", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "b7f49772efc7872350f6bdb7c32f21b11ff5c189";
+	const expectedHash = "7cee0772549fe92818e622f5d0a3523e44d615d3";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -32,7 +32,7 @@ test("Testing an image with minification", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "39ddf0e7facf76617c5c9426aa994cfef66e696d";
+	const expectedHash = "2ae5c8467927fe1988581ffa5ce3507c3a94059e";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -57,7 +57,7 @@ test("Testing an image with crop with decimals (percents)", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "76ad49083a059dd1dff1cc92ddfcb48adf075471";
+	const expectedHash = "7bd31db9103e8700f4d3db99b8992298536f7063";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -84,7 +84,7 @@ test("Testing an image with crop with decimals based on phpthumb", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "722140f50e274ea4e8815001270831c4a0bcc709";
+	const expectedHash = "c509f00d77619f7d2a5a2d4eb1c22157e3d4dd81";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -119,7 +119,7 @@ test("Testing an image with trim and square", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "27b475d7b1196af61a8be8a9bd85e2cb5c046e1c";
+	const expectedHash = "82fb2cad7a2738d587971bdb43344b37d26bb7bb";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
