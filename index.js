@@ -18,6 +18,54 @@ var gm = require('gm')
 	, getStream = require('get-stream')
 	;
 
+//modify the gm's prototype's args function.
+//need to do this so we can specify not to automatically
+//append the - argument to the convert command
+gm.prototype.args = function args (noOut) {
+	var self = this;
+	var outname = (noOut) ? "" : (self.outname || "-");
+
+	if (self._outputFormat) outname = self._outputFormat + ':' + outname;
+
+	return [].concat(
+		self._subCommand
+		, self._in
+		, self.src()
+		, self._out
+		, outname
+	).filter(Boolean); // remove falsey
+};
+
+//modify the gm's prototypes size function.
+//the default version uses the identify utility
+//so, it does not process any commands and then get
+//the new size. This function will use the convert
+//utility, apply and modifications and then get the
+//new size. This is used for the square option.
+gm.prototype.size = function (callback) {
+	var self = this;
+
+	self.out('-format');
+	self.out('%wx%h');
+	self.out('info:');
+
+	self._preprocess(function (err) {
+		if (err) return callback(err);
+		self._spawn(self.args(true), true, function (err, stdout, stderr, cmd) {
+			if (err) {
+				return callback(err);
+			}
+
+			var dims = stdout.split('x');
+
+			return callback(null, {
+				width : dims[0]
+				, height : dims[1]
+			});
+		});
+	});
+}
+
 module.exports = function (defaults) {
 	defaults = defaults || {};
 
