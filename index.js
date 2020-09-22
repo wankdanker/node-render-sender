@@ -363,14 +363,15 @@ module.exports = function (defaults) {
 			g.crop(opts.crop.width, opts.crop.height, opts.crop.x, opts.crop.y);
 		}
 
-		if (opts.width && opts.height) {
-			g.resize(opts.width, opts.height);
-		}
-
 		if (opts.trim) {
 			g.trim();
 		}
 
+
+		if (opts.width && opts.height) {
+			g.resize(opts.width, opts.height);
+		}
+		
 		if (opts.background) {
 			g.background(opts.background);
 		}
