@@ -234,6 +234,14 @@ module.exports = function (defaults) {
 			name = name + '-trimmed';
 		}
 
+		if (opts.square) {
+			name = name + '-squared';
+		}
+
+		if (opts.background) {
+			name = name + '-background:' + opts.background;
+		}
+
 		if (opts.minify) {
 			name = name + '-minified';
 		}
@@ -273,7 +281,15 @@ module.exports = function (defaults) {
 		var buffer = await getStream.buffer(rs);
 
 		var size = await new Promise(function (resolve, reject) {
-			gm(buffer).size(pcb(resolve, reject));
+			var g = gm(buffer);
+
+			if (opts.trim) {
+				//we probably want to get the size of the trimmed version
+				//if it's enabled
+				g.trim();
+			}
+
+			g.size(pcb(resolve, reject));
 		});
 
 		var g = gm(buffer, opts.name)
@@ -305,6 +321,25 @@ module.exports = function (defaults) {
 
 		if (opts.trim) {
 			g.trim();
+		}
+
+		if (opts.background) {
+			g.background(opts.background);
+		}
+
+		if (opts.square) {
+			g.gravity('Center');
+
+			if (opts.width && opts.height) {
+				var max = Math.max(opts.width, opts.height);
+				
+				g.extent(max + 'x' + max);
+			}
+			else {
+				var max = Math.max(size.width, size.height);
+
+				g.extent(max + 'x' + max);
+			}
 		}
 
 		return g.write(opts.cachedPath, async function (err) {

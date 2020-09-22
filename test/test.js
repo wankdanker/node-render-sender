@@ -115,6 +115,58 @@ test("Testing an image with crop with decimals based on phpthumb", function(t) {
 	});
 });
 
+test("Testing an image with trim and square", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "27b475d7b1196af61a8be8a9bd85e2cb5c046e1c";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	//Call maybeRender with the correct options.
+	rs({
+		path : "./test/catalog.jpg"
+		, format : 'jpg'
+		, trim : true
+		, square : true
+		, background : 'white'
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		t.end();
+	});
+});
+
+test("Testing an image with resieze, trim and square", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "1bea9f0029436a6b6515d4b9152d596d88e13937";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	//Call maybeRender with the correct options.
+	rs({
+		path : "./test/catalog.jpg"
+		, format : 'jpg'
+		, trim : true
+		, square : true
+		, width : 500
+		, height : 500
+		, background : 'white'
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		t.end();
+	});
+});
+
 test("Testing a video", function(t) {
 	t.plan(2);
 
