@@ -96,6 +96,8 @@ module.exports = function (defaults) {
 	}
 
 	function doSend (opts, cb) {
+		debug('sending for %s:', opts.path);
+
 		if (opts.outstream) {
 			return doSendFs(opts, cb);
 		}
@@ -130,6 +132,8 @@ module.exports = function (defaults) {
 	}
 
 	function doRender(opts, cb) {
+		debug('rendering for %s:', opts.path);
+
 		var rs = opts.stream || fs.createReadStream(opts.path);
 
 		//if rs is a function then call it and hope that it returns a stream
