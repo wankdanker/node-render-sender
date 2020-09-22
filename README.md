@@ -61,12 +61,24 @@ Render the requested changes to an image and send the response to an http respon
 	* req - [object] an http server request object
 	* res - [object] an http server response object
 	* path - [string] the path to an image file to be processed
+	* format - [string] the output format of the image
 	* width - [numeric] the requested resize width of the image
 	* height - [numeric] the requested resize height of the image
+	* minify - [boolean] run the output image through a minifier
+	* trim - [boolean] make the output image trimmed (remove excess white-space)
+	* square - [boolean] make the output image square using the larger of width or height
+	* background - [string] when square is true, use this background color to fill in the empty space
+	* crop - [object] an object defining the crop section
+		* width - [numeric] width of area to cropy
+		* height - [numeric] height of area to crop
+		* x - [numeric] offset on the x axis for cropping
+		* y - [numeric] offset on the y offset for cropping
 	* format - [string] the output format requested (jpg,png)
 	* stream - [stream/function] a readable stream of binary image data
 		* if stream is a function it should return a readable stream when called
 		* a file name is still required as part of path for caching
+	* outstream - [stream] a writable stream to which the output image should be
+	sent 
 
 ### rs.maybeRender(opts)
 
