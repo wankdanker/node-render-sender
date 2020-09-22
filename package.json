@@ -1,6 +1,6 @@
 {
   "name": "render-sender",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "On-demand image resizer/minfier/cacher ",
   "main": "index.js",
   "directories": {
