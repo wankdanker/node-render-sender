@@ -8,7 +8,7 @@ test("Testing an image", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "7cee0772549fe92818e622f5d0a3523e44d615d3";
+	const expectedHash = "667333a506c01071344883a684f6417f73b2bd59";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -32,7 +32,7 @@ test("Testing an image with minification", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "2ae5c8467927fe1988581ffa5ce3507c3a94059e";
+	const expectedHash = "667333a506c01071344883a684f6417f73b2bd59";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -144,7 +144,7 @@ test("Testing an image with resieze, trim and square", function(t) {
 	t.plan(2);
 
 	//Variables for the file name and expect sha hash.
-	const expectedHash = "1bea9f0029436a6b6515d4b9152d596d88e13937";
+	const expectedHash = "08b424d8c14bbed033237d00c9f9450acbc2b837";
 	const outstream = passthrough();
 
 	//Call test equality with the files and the tape object.
@@ -167,6 +167,33 @@ test("Testing an image with resieze, trim and square", function(t) {
 	});
 });
 
+
+test("Testing a different item with resize, trim and square", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "6c7ccf01baf6d71dac7247a18df1270a549adb1d";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	//Call maybeRender with the correct options.
+	rs({
+		path : "./test/54000.jpg"
+		, width : 500
+		, height : 500
+		, trim : true
+		, square : true
+		, format : 'jpg'
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		t.end();
+	});
+});
+/*
 test("Testing a video", function(t) {
 	t.plan(2);
 
@@ -319,7 +346,7 @@ test("Testing a video with aspectratio", function(t) {
 		t.end();
 	});
 });
-
+*/
 
 /**
  * This function uses sha hashes to see if a file is exqual to the expected hash.
