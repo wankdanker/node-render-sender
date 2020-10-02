@@ -286,6 +286,10 @@ module.exports = function (defaults) {
 			name = name + '-squared';
 		}
 
+		if (opts.sharpen) {
+			name = name + "-sharpened:" + opts.sharpen;
+		}
+
 		if (opts.background) {
 			name = name + '-background:' + opts.background;
 		}
@@ -389,6 +393,10 @@ module.exports = function (defaults) {
 
 				g.extent(max + 'x' + max);
 			}
+		}
+
+		if (opts.sharpen) {
+			g.sharpen(opts.sharpen);
 		}
 
 		return g.write(opts.cachedPath, async function (err) {
