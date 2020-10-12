@@ -72,12 +72,12 @@ module.exports = function (defaults) {
 	var cacheDir = resolve(defaults.cache || '/tmp');
 	var maxAge = defaults.maxAge || '30 d';
 	const imgArray = [
-		"jpg", "jpeg", "tif", "png", "gif", "raw"
-		, ".jpg", ".jpeg", ".tif", ".png", ".gif", ".raw"
+		"jpg", "jpeg", "tif", "tiff", "png", "gif", "raw", "bmp", "webp"
+		, ".jpg", ".jpeg", ".tif", ".tiff", ".png", ".gif", ".raw", ".bmp", ".webp"
 	];
 	const videoArray = [
-		"mp4"
-		, ".mp4"
+		"mp4", "avi", "webm", "apng"
+		, ".mp4", ".avi", ".webm", ".apng"
 	];
 
 	//Create a cached dir
@@ -230,7 +230,7 @@ module.exports = function (defaults) {
 			catch (e) {
 
 				//Log the err.
-				console.error("Read stream could not be closed.", e);
+				console.error("render-sender: read stream could not be closed.", e);
 			}
 
 			//Return the callback with the arguments.
@@ -458,7 +458,6 @@ module.exports = function (defaults) {
 		}
 		//Process the video.
 		else {
-
 			//Main ffmpeg command for the file.
 			let command = ffmpeg(opts.path);
 
@@ -490,13 +489,16 @@ module.exports = function (defaults) {
 				let numbers = opts.aspect_ratio.split("x");
 				command.size(sizeString).aspect(numbers[0] + ":" + numbers[1]);
 			}
-
+			if(opts.format) {
+				command.format(opts.format);
+			}
+			
 			//Save the video.
 			command.save(opts.cachedPath);
 
 			//Add an error handler.
 			command.on('error', err => {
-				return(cb(err));
+				return cb(err);
 			});
 
 			//Add an end handler.

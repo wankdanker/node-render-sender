@@ -348,6 +348,56 @@ test("Testing a video with aspectratio", function(t) {
 });
 */
 
+test("Testing converting video to apng", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "525fc86d48ca0013f5879edb5e4f85218ab63f25";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	rs({
+		path : "./test/10043-Video.mp4"
+		, format: "apng"
+		, framerate: 1
+		, height : 200
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		
+		//End the test.
+		t.end();
+	});
+});
+
+test("Testing converting video to gif", function(t) {
+	t.plan(2);
+
+	//Variables for the file name and expect sha hash.
+	const expectedHash = "ffb9f83bfbb64fb076627a54cb52a06f06a03a07";
+	const outstream = passthrough();
+
+	//Call test equality with the files and the tape object.
+	testEquality(outstream, expectedHash, t);
+
+	rs({
+		path : "./test/10043-Video.mp4"
+		, format: "gif"
+		, framerate: 1
+		, height : 200
+		, outstream : outstream
+	}, function (err) {
+		//Make sure there isn't an error.
+		t.notOk(err, "There should not be an error");
+		
+		//End the test.
+		t.end();
+	});
+});
+
 /**
  * This function uses sha hashes to see if a file is exqual to the expected hash.
  * @param {*} file1 name of file1
